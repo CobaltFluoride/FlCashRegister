@@ -17,7 +17,7 @@ AXTF_VERSION:1.0
 food:donut:milk:tea:coffee
 32:87
 Single item
-Item 1:Item 2:Item 3: Item 4: Item 5
+Item 1:Item 2:Item 3:Item 4:Item 5
 ```
 
 ## Compiling
