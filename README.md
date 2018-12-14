@@ -1,7 +1,7 @@
 # FlCashRegister
 
 FlCashRegister is a fully-featured POS system that does not use databases. This makes it increadibly easy to set up and use. There is no fooling around with a database.
-Instead .axtf files are used. Although an axtf file is *not* a key-value based file, it can be used like one.
+Instead .axtf files are used. Although an axtf file is *not* a key-value based file, it *can* be used like one.
 
 ## AXTF Files
 
