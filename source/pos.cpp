@@ -119,6 +119,12 @@ public:
 	{
 		
 	}
+
+	ItemSelector(int x, int y, int w, int h, std::string label)
+		: Fl_Group(x,y,w,h,label.c_str())
+	{
+		
+	}
 };
 
 class POS
@@ -310,6 +316,7 @@ int main(int argc, char **argv)
 	if(fileExists(restoreFileName))
 	{
 
+		const int MAX_RESTORE_MESSAGES = 4;
 		int transactionsRestored = 0;
 		std::cout << "Reading from \"" << restoreFileName << "\"" << std::endl;
 
@@ -319,7 +326,8 @@ int main(int argc, char **argv)
 		{
 			std::string tmpString;
 			std::getline(transactionFile, tmpString);
-			std::cout << "Restoring transaction: " << tmpString << std::endl;
+			if(transactionsRestored <= MAX_RESTORE_MESSAGES)
+				std::cout << "Restoring transaction: " << tmpString << std::endl;
 
 			std::vector<std::string> transactionInfo{explode(tmpString, ':')};
 
@@ -340,7 +348,15 @@ int main(int argc, char **argv)
 			if(transactionFile.eof()) break;
 		}
 		transactionFile.close();
-		std::cout << "Successfully restored " << transactionsRestored << " transactions!" << std::endl;
+
+		int trunctuatedMessages = 0;
+
+		if(transactionsRestored > MAX_RESTORE_MESSAGES)
+		{
+			trunctuatedMessages = transactionsRestored - MAX_RESTORE_MESSAGES;
+		}
+
+		std::cout << "Successfully restored " << transactionsRestored << " transactions!" << std::endl << trunctuatedMessages << " transaction restored messages were trunctuated" << std::endl;
 	}
 
 	return posApp.show();
