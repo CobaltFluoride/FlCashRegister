@@ -13,6 +13,12 @@ In the current FlCashRegister implementation, there is no backslash escape suppo
 The project is ***not working*** at this moment! It will compile but the full functionality is not complete, and will not be able to be used as a full POS system yet!
 However, this has to be done by monday so I hope it's complete by then.
 
+- Go to the src directory: `cd src`
+- Run `make`
+- run `./mkdist` to copy appropriate files to ../dist
+
+After following those steps, you can then go to the dist folder and run `./pos` to start the POS system.
+
 # Thanks
 
 Thanks for checking out the repo. Feel free to clone/download/fork this repo and do whatever you want with it.
