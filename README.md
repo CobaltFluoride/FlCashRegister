@@ -8,6 +8,18 @@ Instead .axtf files are used. Although an axtf file is *not* a key-value based f
 Axtf stands for **Ax**olotl **T**ransfer **F**ile. The axtf format is extremely simple. Each line is a vector. The items are separated by the ':' character.
 In the current FlCashRegister implementation, there is no backslash escape support (like "value\:1:value\:2"), but that is planned and is part of the format.
 
+## Example AXTF File
+
+Here is an example AXTF File:
+
+```
+AXTF_VERSION:1.0
+food:donut:milk:tea:coffee
+32:87
+Single item
+Item 1:Item 2:Item 3: Item 4: Item 5
+```
+
 ## Compiling
 
 The project is ***not working*** at this moment! It will compile but the full functionality is not complete, and will not be able to be used as a full POS system yet!
