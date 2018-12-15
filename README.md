@@ -22,6 +22,8 @@ Item 1:Item 2:Item 3:Item 4:Item 5
 
 ## Compiling
 
+Please note that there are linux binaries in source/ and dist/
+
 The project is ***not working*** at this moment! It will compile but the full functionality is not complete, and will not be able to be used as a full POS system yet!
 However, this has to be done by monday so I hope it's complete by then.
 
