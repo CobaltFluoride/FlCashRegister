@@ -1,24 +1,4 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <ios>
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include <stdlib.h>
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Box.H>
-#include <FL/Fl_Slider.H>
-#include <FL/Fl_Scroll.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Input.H>
-#include <FL/Fl_Tabs.H>
-#include <FL/Fl_Return_Button.H>
-#include <FL/Fl_Tree.H>
-#include <FL/Fl_Tree_Item.H>
-#include "include/transaction.h"
+#include "app.h"
 
 // Explode a string. Works similar to PHP explode and JS String.split
 
@@ -67,92 +47,8 @@ bool fileExists(std::string filename)
 	return (stat(filename.c_str(), &buffer) == 0);
 }
 
-class MenuItem
-{
-public:
-	enum Type
-	{
-		CATEGORY,
-		ITEM,
-	};
 
-	std::string getName()
-	{
-		return this->name;
-	}
 
-private:
-	int id;
-	int stock;
-	double price;
-	
-	std::string name;
-	std::string description;
-
-	MenuItem::Type itemType;
-
-	// MenuItem::children is only used when the type is MenuItem::Type.CATEGORY
-
-	std::vector<MenuItem> children;
-
-};
-
-class ItemSelector : public Fl_Group
-{
-private:
-	std::vector<MenuItem> menuItems;
-	std::string currentPath;
-
-	// Widgets in this widget
-	
-	// I figured out how to make these not pointers, so we can do better coding habits for C++ from now on.
-	// The main class below needs an entire rewrite to not use pointers.
-
-	Fl_Input pathInput;
-	Fl_Button homeButton;
-	Fl_Group selectorGroup;
-	
-
-public:
-	void addItem(MenuItem item);
-	void removeItem(int id);
-
-	void populateMenu()
-	{
-		
-	}
-
-	// Unfortunately, a bug prevents us from using std::string here.
-	// Using std::string for label causes garbage to be printed as the Fl_Group
-	// label.
-
-	ItemSelector(int x, int y, int w, int h, const char *label)
-		: 	Fl_Group(x,y,w,h,label),
-			pathInput(x+2,y+4,w-64,26),
-			homeButton(x+(w-62),y+4,56,26, "Home"),
-			selectorGroup(x+4,y+32,w-8,h-32)
-			
-	{
-		box(FL_FLAT_BOX);
-		color(0xffffff00);
-
-		pathInput.box(FL_FLAT_BOX);
-		pathInput.color(pathInput.parent()->color() - 0x11111100);
-		pathInput.value("MENU://");
-
-		homeButton.box(FL_FLAT_BOX);
-		homeButton.color(homeButton.parent()->color() - 0x11111100);
-
-		selectorGroup.end();
-		end();
-	}
-
-	int handle(int event)
-	{
-		redraw();
-		if(Fl_Group::handle(event)) return 1;
-	}
-};
 
 class POS
 {
