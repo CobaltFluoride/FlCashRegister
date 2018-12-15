@@ -5,7 +5,7 @@ Instead .axtf files are used. Although an axtf file is *not* a key-value based f
 
 ## AXTF Files
 
-Axtf stands for **Ax**olotl **T**ransfer **F**ile. The axtf format is extremely simple. Each line is a vector. The items are separated by the ':' character.
+Axtf, pronounced axe-tiff, stands for **Ax**olotl **T**ransfer **F**ile. The axtf format is extremely simple. Each line is a vector. The items are separated by the ':' character.
 In the current FlCashRegister implementation, there is no backslash escape support (like `Book Item:Donald's Adventure\:The Awakening`), but that is planned and is part of the format.
 
 Just a reminder that axtf files are not key-value based.
