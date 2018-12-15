@@ -97,7 +97,7 @@ private:
 
 };
 
-class ItemSelector : Fl_Group
+class ItemSelector : public Fl_Group
 {
 private:
 	std::vector<MenuItem> menuItems;
@@ -105,12 +105,14 @@ private:
 
 	// Widgets in this widget
 	
-	Fl_Group *headerGroup;
+	// I figured out how to make these not pointers, so we can do better coding habits for C++ from now on.
+	// The main class below needs an entire rewrite to not use pointers.
 
-	Fl_Box *pathLabel;
-	Fl_Button *homeButton;
-	Fl_Group *selectorGroup;
+	Fl_Input pathInput;
+	Fl_Button homeButton;
+	Fl_Group selectorGroup;
 	
+
 public:
 	void addItem(MenuItem item);
 	void removeItem(int id);
@@ -120,10 +122,35 @@ public:
 		
 	}
 
-	ItemSelector(int x, int y, int w, int h, std::string label)
-		: Fl_Group(x,y,w,h,label.c_str())
+	// Unfortunately, a bug prevents us from using std::string here.
+	// Using std::string for label causes garbage to be printed as the Fl_Group
+	// label.
+
+	ItemSelector(int x, int y, int w, int h, const char *label)
+		: 	Fl_Group(x,y,w,h,label),
+			pathInput(x+2,y+4,w-64,26),
+			homeButton(x+(w-62),y+4,56,26, "Home"),
+			selectorGroup(x+4,y+32,w-8,h-32)
+			
 	{
-		
+		box(FL_FLAT_BOX);
+		color(0xffffff00);
+
+		pathInput.box(FL_FLAT_BOX);
+		pathInput.color(pathInput.parent()->color() - 0x11111100);
+		pathInput.value("MENU://");
+
+		homeButton.box(FL_FLAT_BOX);
+		homeButton.color(homeButton.parent()->color() - 0x11111100);
+
+		selectorGroup.end();
+		end();
+	}
+
+	int handle(int event)
+	{
+		redraw();
+		if(Fl_Group::handle(event)) return 1;
 	}
 };
 
@@ -184,11 +211,11 @@ public:
 		currentTransactionGroup = new Fl_Group(0, 0, sidebarWidth, height);
 		{
 			currentTransactionGroup->box(FL_UP_BOX);
-			currentTransactionLabel = new Fl_Box(FL_FLAT_BOX, 2, 2, sidebarWidth - 4, 25, "Current Transaction");
+			currentTransactionLabel = new Fl_Box(2, 2, sidebarWidth - 4, 25, "Current Transaction");
 
 			currentTransactionList = new Fl_Scroll(2, 30, sidebarWidth - 4, height - 90);
 			currentTransactionList->type(Fl_Scroll::VERTICAL_ALWAYS);
-			currentTransactionList->box(FL_UP_BOX);
+			currentTransactionList->box(FL_UP_FRAME);
 			
 			currentTransactionList->end();
 
@@ -200,16 +227,17 @@ public:
 		}
 		currentTransactionGroup->end();
 
-		mainViewTabs = new Fl_Tabs(sidebarWidth + 4, 0, width - sidebarWidth - 4, 25);
+		mainViewTabs = new Fl_Tabs(sidebarWidth + 4, 0, width - sidebarWidth - 4, height);
 		{
 			addItemsGroup = new Fl_Group(mainViewLeft, 27, width - mainViewLeft, height - 27, "Add Items");
 			{
+				itemSelector = new ItemSelector(mainViewLeft + 2, 29, width - mainViewLeft - 4, height - 27 - 4, "");
+
 			}
 			addItemsGroup->end();
 
 			previousTransactionsGroup = new Fl_Group(mainViewLeft, 27, width - mainViewLeft, height - 27, "Previous Transactions");
 			{
-
 			}
 			previousTransactionsGroup->end();
 
@@ -324,6 +352,8 @@ int main(int argc, char **argv)
 		transactionFile.open(restoreFileName, std::ios::in);
 		while(true)
 		{
+			// transaction restore file is open, parse as an axtf file 
+
 			std::string tmpString;
 			std::getline(transactionFile, tmpString);
 			if(transactionsRestored <= MAX_RESTORE_MESSAGES)
